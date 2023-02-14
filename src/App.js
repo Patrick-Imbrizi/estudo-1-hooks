@@ -1,6 +1,6 @@
 import './App.css';
 import Fact from './components/Fact';
-import React, { useEffect } from 'react';
+import React from 'react';
 
 
 function App() {
@@ -12,16 +12,16 @@ function App() {
 
 
   async function generateFact() {
-    const showFact = await fetch(`https://uselessfacts.jsph.pl/random.json?language=en`)
+    await fetch(`https://uselessfacts.jsph.pl/random.json?language=en`)
       .then(response => response.json())
       .then(json => setFact(json));
-    setPrevFacts([fact.text])
+    setPrevFacts([fact])
   }
 
 
 
 
-  console.log(fact)
+  console.log(fact, prevFacts)
 
   return (
     <div className="App">
@@ -29,8 +29,8 @@ function App() {
       {fact.length !== 0 ? <Fact randomFact={fact} /> : <p>Click below to start generating facts.</p>}
       <div className='btn-wrap'>
         <button onClick={generateFact}>Generate</button>
-        <button disabled={prevFacts[0] === undefined}
-          onClick={() => setFact(prevFacts)}>
+        <button disabled={prevFacts[0] === undefined || prevFacts[0] === fact}
+          onClick={() => setFact(prevFacts[0])}>
           Previous Fact
         </button>
       </div>
