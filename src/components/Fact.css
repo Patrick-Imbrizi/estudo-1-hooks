@@ -1,0 +1,11 @@
+body {
+    font-weight: 600;
+    justify-content: center;
+}
+
+.fact {
+   display: block;
+   margin: 56px auto;
+   padding: 0px 100px;
+   color: #eaeaea;
+}
