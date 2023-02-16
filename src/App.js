@@ -45,8 +45,8 @@ function App() {
       <h1>Random useless - but real! - facts generator.</h1>
       {loadingStatus()}
       <div className='btn-wrap'>
-        <button onClick={generateFact}>Generate</button>
-        <button disabled={prevFacts[0] === undefined || prevFacts.at(-1) === fact}
+        <button disabled={loading === true} onClick={generateFact}>Generate</button>
+        <button disabled={prevFacts[0] === undefined || prevFacts.at(-1) === fact || loading === true}
           onClick={handlePreviousFact}>
           Previous Fact
         </button>

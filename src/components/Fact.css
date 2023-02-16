@@ -1,11 +1,11 @@
 body {
-    font-weight: 600;
+    font-weight: 500;
     justify-content: center;
 }
 
 .fact {
    display: block;
    margin: 56px auto;
-   padding: 0px 100px;
+   padding: 0px 10vw;
    color: #eaeaea;
 }
