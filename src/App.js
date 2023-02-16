@@ -8,20 +8,21 @@ function App() {
 
   const [prevFacts, setPrevFacts] = React.useState([]);
 
-
-
-
   async function generateFact() {
-    await fetch(`https://uselessfacts.jsph.pl/random.json?language=en`)
-      .then(response => response.json())
-      .then(json => setFact(json));
-    setPrevFacts([fact])
+    try {
+      const res = await fetch(`https://uselessfacts.jsph.pl/random.json?language=en`);
+      const json = await res.json();
+      setFact(json);
+      setPrevFacts([...prevFacts, fact])
+    } catch (err) {
+      console.log(err.message);
+    }
   }
 
-
-
-
-  console.log(fact, prevFacts)
+  function handlePreviousFact() {
+    setFact(prevFacts.at(-1))
+    setPrevFacts(prevFacts.slice(0, -1))
+  }
 
   return (
     <div className="App">
@@ -29,8 +30,8 @@ function App() {
       {fact.length !== 0 ? <Fact randomFact={fact} /> : <p>Click below to start generating facts.</p>}
       <div className='btn-wrap'>
         <button onClick={generateFact}>Generate</button>
-        <button disabled={prevFacts[0] === undefined || prevFacts[0] === fact}
-          onClick={() => setFact(prevFacts[0])}>
+        <button disabled={prevFacts[0] === undefined || prevFacts.at(-1) === fact}
+          onClick={handlePreviousFact}>
           Previous Fact
         </button>
       </div>
