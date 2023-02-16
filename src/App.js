@@ -8,10 +8,14 @@ function App() {
 
   const [prevFacts, setPrevFacts] = React.useState([]);
 
+  const [loading, setLoading] = React.useState(false)
+
   async function generateFact() {
     try {
+      setLoading(true)
       const res = await fetch(`https://uselessfacts.jsph.pl/random.json?language=en`);
       const json = await res.json();
+      setLoading(false)
       setFact(json);
       setPrevFacts([...prevFacts, fact])
     } catch (err) {
@@ -24,10 +28,22 @@ function App() {
     setPrevFacts(prevFacts.slice(0, -1))
   }
 
+  function loadingStatus() {
+    if (loading === false && fact.length !== 0) {
+      return (<Fact randomFact={fact} />)
+    } else if (loading === false && fact.length === 0) {
+      return (<p><em>Click below to start generating facts.</em></p>)
+    } else {
+      return (<p><em>Loading...</em></p>)
+
+    }
+
+  }
+
   return (
     <div className="App">
       <h1>Random useless - but real! - facts generator.</h1>
-      {fact.length !== 0 ? <Fact randomFact={fact} /> : <p>Click below to start generating facts.</p>}
+      {loadingStatus()}
       <div className='btn-wrap'>
         <button onClick={generateFact}>Generate</button>
         <button disabled={prevFacts[0] === undefined || prevFacts.at(-1) === fact}
@@ -36,7 +52,7 @@ function App() {
         </button>
       </div>
     </div >
-  );
+  )
 }
 
 export default App;
